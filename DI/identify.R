@@ -33,7 +33,7 @@ bootGene<-function(ctrl,tumor,B){
   #B: boostrap times;
   res<-c()
   b<-0
-  N<-ncol(ctrl) #number of examples
+  N<-nrow(ctrl) #number of examples
   indices<-seq(1,N)
   while(b<B){
     b_indices<-sample(indices,size=floor(sqrt(N)))
