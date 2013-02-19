@@ -27,22 +27,9 @@ mergeNetwork<-function(net1, net2){
 }
 
 
-bootGene<-function(data, indices, n, alpha, corfun=cor){
-    #data includes the gene expession data about contrl groups and tumor groups.
-    #indices is necessary for boot.
-    #n must be even. n stand for the number of examples.
-    #alpha, corfun is needed by makeNet.
-    ctrl<-seq(1,ex-1,by=2)
-    tumor<-seq(2,ex,by=2)
-    ctrldata<-t(data[,ctrl])
-    tumordata<-t(data[,tumor])
-    
-    bootctrldata<-ctrldata[indices,]
-    boottumordata<-tumordata[indices,]
-    
-    ctrlnet<-makeNetwork(bootctrldata, alpha, corfun)
-    tumornet<-makeNetwork(boottumordata, alpha, corfun)
-    return(mergeNetwork(ctrlnet,tumornet)
-    
-}
 
+bootGene<-function(ctrl,tumor,B){
+  #ctrl, tumor: gene expression data for ctrl group and tumor group respectively;
+  #B: boostrap times;
+  
+}
