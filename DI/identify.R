@@ -10,6 +10,8 @@ makeNetwork<-function(data, alpha, corfun=cor){
     net<-corfun(data)
     net[net<alpha]=0
     net[net>0]=1
+    n<-nrow(net)
+    net<-net-diag(1,n,n)
     return(net)
 }
 
@@ -36,7 +38,8 @@ bootGene<-function(ctrl,tumor,B){
   N<-nrow(ctrl) #number of examples
   indices<-seq(1,N)
   while(b<B){
-    b_indices<-sample(indices,size=floor(sqrt(N)))
+    #b_indices<-sample(indices,size=floor(sqrt(N)))
+    b_indices<-sample(indices,size=N/2)
     b_ctrl_net<-makeNetwork(ctrl[b_indices,],0.75) #OK, we will add parameter later.
     b_tumor_net<-makeNetwork(tumor[b_indices,],0.75)
     b_net<-mergeNetwork(b_ctrl_net,b_tumor_net)
