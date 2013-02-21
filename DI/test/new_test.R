@@ -26,7 +26,9 @@ late_tumor<-late[late%%2==0]
 
 testdata<-read.table("dataGSE",header=T)
 #testdata<-read.table("littleData",header=T)
-testdata<-testdata[2:nrow(testdata),]
+#testdata<-read.table("testdata",header=T)
+testdata<-testdata[,2:ncol(testdata)]
+testdata<-as.matrix(testdata)
 alpha<-0.75
 early_ctrl_data<-t(testdata[,early_ctrl])
 early_tumor_data<-t(testdata[,early_tumor])
