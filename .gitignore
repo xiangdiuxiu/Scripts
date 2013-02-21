@@ -2,3 +2,4 @@
 .Rhistory
 dataGSE
 *.out
+*.R~
