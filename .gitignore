@@ -2,4 +2,9 @@
 .Rhistory
 dataGSE
 *.out
+clean_data
 *.R~
+*.cpp~
+read_data.cpp
+*_temp
+read_test
