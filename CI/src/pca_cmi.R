@@ -1,0 +1,115 @@
+cmi<-function(v1,v2,vcs=NULL){
+  if(is.null(vcs)){
+    vm1<-as.matrix(v1)
+    vm2<-as.matrix(v2)
+    vm3<-cbind(vm1,vm2)
+    c1<-det(cov(vm1))
+    c2<-det(cov(vm2))
+    c3<-det(cov(vm3))
+    #show(c3)
+    cmiv<-0.5*log(c1*c2/c3)
+  }else{
+    vm1<-as.matrix(v1)
+    vm2<-as.matrix(v2)
+    if(is.vector(vcs)){
+      vm3<-as.matrix(vcs)
+    }else{
+      vm3<-t(vcs)
+    }
+    c1<-det(cov(cbind(vm1,vm3)))
+    c2<-det(cov(cbind(vm2,vm3)))
+    c3<-det(cov(vm3))
+    c4<-det(cov(cbind(vm1,vm2,vm3)))
+    cmiv<-0.5*log((c1*c2)/(c3*c4))
+  }
+  if(is.na(cmiv)||is.infinite(cmiv)){
+    cmiv<-0
+  }
+  return(cmiv)
+}
+
+edgereduce<-function(G,Gval,order,data,t,lambda){
+  if(order==0){
+    for(i in 1:(nrow(G)-1)){
+      for(j in (i+1):nrow(G)){
+        if(G[i,j]!=0){
+          cmiv<-cmi(data[i,],data[j,])
+          Gval[i,j]<-cmiv
+          Gval[j,i]<-cmiv
+          if(cmiv<lambda){
+            G[i,j]<-0
+            G[j,i]<-0
+          }
+        }
+      }
+    }
+    t<-t+1
+  }else{
+    for(i in 1:(nrow(G)-1)){
+      for(j in (i+1):nrow(G)){
+        if(G[i,j]!=0){
+          adj<-c()
+          for(k in 1:nrow(G)){
+            if(G[i,k]!=0&&G[j,k]!=0){
+              adj<-c(adj,k)
+            }
+          }
+          if(!is.null(adj)&&length(adj)>=order){
+            combnlist<-combn(adj,order)
+            combnnum<-ncol(combnlist)
+            cmiv<-0
+            v1<-data[i,]
+            v2<-data[j,]
+            for(k in 1:combnnum){
+              vcs<-data[combnlist[,k],]
+              a<-cmi(v1,v2,vcs)
+              cmiv<-max(cmiv,a)
+            }
+            Gval[i,j]<-cmiv
+            Gval[j,i]<-cmiv
+            if(cmiv<lambda){
+              G[i,j]<-0
+              G[j,i]<-0
+            }else{
+              t<-t+1
+            }
+          }
+        }
+      }
+    }
+  }
+  return(list(G,Gval,t))
+}
+
+pca_cmi<-function(data,lambda,order0=NULL){
+  n_gene<-nrow(data)
+  G<-matrix(1,n_gene,n_gene)
+  diag(G)=0
+  Gval<-G
+  order<--1
+  t=0
+  while(t==0){
+    order<-order+1
+    if(!is.null(order0)){
+      if(order>order0){
+        #G[lower.tri(G,diag=TRUE)]=0
+        #Gval[lower.tri(G,diag=TRUE)]=0
+        return(list(G,Gval,order))
+      }
+    }
+    result<-edgereduce(G,Gval,order,data,t,lambda)
+    G<-result[[1]]
+    Gval<-result[[2]]
+    t<-result[[3]]
+    if(t==0){
+      show("Algorithm is finished")
+      break;
+    }else{
+      t=0
+    }
+  }
+  #G[lower.tri(G,diag=TRUE)]=0
+  #Gval[lower.tri(G,diag=TRUE)]=0
+  order<-order-1
+  return(list(G,Gval,order))
+}
