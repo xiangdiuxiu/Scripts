@@ -65,7 +65,7 @@ edgereduce<-function(G,Gval,order,data,t,lambda){
   return(list(G,Gval,t))
 }
 
-pca_cmi<-function(data,lambda,order0=NULL){
+pca_dc<-function(data,lambda,order0=NULL){
   n_gene<-nrow(data)
   G<-matrix(1,n_gene,n_gene)
   diag(G)=0
