@@ -1,6 +1,6 @@
 library(earth); #Multivariate Adaptive Regression Splines
 library(energy);# distance correlation
-cmi<-function(v1,v2,vcs=NULL){
+dc<-function(v1,v2,vcs=NULL){
   if(is.null(vcs)){cmiv<-dcor(v1,v2)}
   else{ 
     if(is.vector(vcs)){vcs<-as.matrix(vcs)}
@@ -17,7 +17,7 @@ edgereduce<-function(G,Gval,order,data,t,lambda){
     for(i in 1:(nrow(G)-1)){
       for(j in (i+1):nrow(G)){
         if(G[i,j]!=0){
-          cmiv<-cmi(data[i,],data[j,])
+          cmiv<-dc(data[i,],data[j,])
           Gval[i,j]<-cmiv
           Gval[j,i]<-cmiv
           if(cmiv<lambda){
@@ -46,7 +46,7 @@ edgereduce<-function(G,Gval,order,data,t,lambda){
             v2<-data[j,]
             for(k in 1:combnnum){
               vcs<-data[combnlist[,k],]
-              a<-cmi(v1,v2,vcs)
+              a<-dc(v1,v2,vcs)
               cmiv<-max(cmiv,a)
             }
             Gval[i,j]<-cmiv
