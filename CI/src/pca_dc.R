@@ -12,7 +12,7 @@ dc<-function(v1,v2,vcs=NULL){
   return(cmiv)
 }
 
-edgereduce<-function(G,Gval,order,data,t,lambda){
+edgereduce_dc<-function(G,Gval,order,data,t,lambda){
   if(order==0){
     for(i in 1:(nrow(G)-1)){
       for(j in (i+1):nrow(G)){
@@ -81,7 +81,7 @@ pca_dc<-function(data,lambda,order0=NULL){
         return(list(G,Gval,order))
       }
     }
-    result<-edgereduce(G,Gval,order,data,t,lambda)
+    result<-edgereduce_dc(G,Gval,order,data,t,lambda)
     G<-result[[1]]
     Gval<-result[[2]]
     t<-result[[3]]
