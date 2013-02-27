@@ -8,7 +8,7 @@ ROCs<-c()
 true_net<-read.table(file="../data/true_net",header=F,sep=",")
 true_net<-as.matrix(true_net)
 library(minet)
-for(alpha in alphas){
+dfor(alpha in alphas){
   dc_net<-pca_dc(t(Y50),alpha,2)
   dc_net<-dc_net[[1]]
   test_dc.tbl<-validate(dc_net,true_net)
