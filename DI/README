@@ -1,2 +1,6 @@
 #These scipts are used to build networks to identify related genes.
 #bootGene is using boostrap method to get related genes.
+#
+#TO DO
+#1.Read data and init the mat in C++ effectively.
+#
