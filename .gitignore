@@ -8,3 +8,5 @@ clean_data
 read_data.cpp
 *_temp
 read_test
+*.rar
+temp/*
