@@ -28,7 +28,7 @@ ar_1.tbl<-validate(ar,true_1)
 #write.csv(clr,"clr.csv")
 #write.csv(ar,"ar.csv")
 
-write.csv(MI,"mi.csv")
+write.csv(MI,"res/mi.csv")
 
 auc.roc(mr_0.tbl)
 auc.roc(mr_1.tbl)
