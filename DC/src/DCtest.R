@@ -6,6 +6,7 @@ library(energy)
 
 dc<-read.csv("res/dc.csv",header=T)
 dc<-as.matrix(dc)
+dc<-dc[,-1]
 
 mr<-mrnet(dc)
 clr<-clr(dc)
