@@ -1,0 +1,19 @@
+#!/bin/sh -x
+
+#PBS -l nodes=1:ppn=8
+#PBS -N SynTren
+#PBS -q middle
+#PBS -l walltime=72:00:00
+
+
+cd  $PBS_O_WORKDIR
+
+date
+
+hostname
+
+R CMD BATCH makeDCMatrix.R DCMatrix.out
+
+date
+
+
