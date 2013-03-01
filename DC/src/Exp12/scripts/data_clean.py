@@ -7,7 +7,7 @@ infile = open(sys.argv[1])
 mofile = open(sys.argv[2])
 outfile = open(sys.argv[3],"w")
 
-geneNames = infile.readline().strip().split('\t')
+geneNames = infile.readline().strip().split(' ')
 geneNum = len(geneNames)
 
 geneDict = dict(zip(geneNames,range(1,geneNum+1)))
