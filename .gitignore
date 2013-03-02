@@ -10,5 +10,5 @@ read_data.cpp
 read_test
 *.rar
 *Yeast1.txt
-Yeast50
+Yeast50*
 temp/*
