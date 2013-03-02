@@ -51,6 +51,13 @@ In validate(clr, true) :
 > auc.roc(dc.tbl)
 [1] 0.8414682
 > 
+> auc.pr(mr.tbl)
+[1] 0.1055856
+> auc.pr(clr.tbl)
+[1] 0.1954048
+> auc.pr(dc.tbl)
+[1] 0.06906378
+> 
 > proc.time()
  用户  系统  流逝 
-1.150 0.058 1.196 
+1.182 0.081 1.252 

@@ -55,22 +55,6 @@ R是个合作计划，有许多人为之做出了贡献.
 2: In validate(ar, true_0) :
   true network arcs will be considerd as undirected edges
 > 
-> mr_1.tbl<-validate(mr,true_1)
-警告信息：
-1: In validate(mr, true_1) : networks have not the same node names
-2: In validate(mr, true_1) :
-  true network arcs will be considerd as undirected edges
-> clr_1.tbl<-validate(clr,true_1)
-警告信息：
-1: In validate(clr, true_1) : networks have not the same node names
-2: In validate(clr, true_1) :
-  true network arcs will be considerd as undirected edges
-> ar_1.tbl<-validate(ar,true_1)
-警告信息：
-1: In validate(ar, true_1) : networks have not the same node names
-2: In validate(ar, true_1) :
-  true network arcs will be considerd as undirected edges
-> 
 > #write.csv(mr,"mr.csv")
 > #write.csv(clr,"clr.csv")
 > #write.csv(ar,"ar.csv")
@@ -79,17 +63,14 @@ R是个合作计划，有许多人为之做出了贡献.
 > 
 > auc.roc(mr_0.tbl)
 [1] 0.784568
-> auc.roc(mr_1.tbl)
-[1] 0.766263
 > auc.roc(clr_0.tbl)
 [1] 0.784239
-> auc.roc(clr_1.tbl)
-[1] 0.7661042
-> auc.roc(ar_0.tbl)
-[1] 0.4908773
-> auc.roc(ar_1.tbl)
-[1] 0.4838106
+> 
+> auc.pr(mr_0.tbl)
+[1] 0.06590255
+> auc.pr(ar_0.tbl)
+[1] 0.03000917
 > 
 > proc.time()
  用户  系统  流逝 
-3.152 0.069 3.219 
+2.880 0.067 2.937 

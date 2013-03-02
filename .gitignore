@@ -9,4 +9,6 @@ read_data.cpp
 *_temp
 read_test
 *.rar
+*Yeast1.txt
+Yeast50
 temp/*
