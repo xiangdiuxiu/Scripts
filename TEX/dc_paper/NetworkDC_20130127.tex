@@ -57,18 +57,64 @@ Supplementary data are available at Bioinformatics online.
 
 \section{INTRODUCTION}
 
-Take advantage of the development of high throughout technologies, gene expression data provide unique opportunity for investigating the underlying regulatory mechanism of cellular machines \citep{hughes2000functional}. Inferring the gene regulatory networks (GRNs), which explicitly depict the regulatory processes, from expression data is one of the most important issue in system biology \citep{basso2005reverse}. The reverse engineering of GRNs from expression data is still a challenging problem because of the combinatorial nature of the problem and the poor information content of the data \citep{margolin2006reverse}. Therefore, developing efficient methods for inferring robust GRNs is critical. To achieve this goal, the DREAM (Dialogue for Reverse Engineering Assessments and Methods) program[ref] and its conference series is devoted to  encouraging researchers to investigate new powerful methods.
+Taking advantage of the development of high throughout technologies,
+gene expression data provide unique opportunity for investigating
+the underlying regulatory mechanism of cellular machines
+\citep{hughes2000functional}. Inferring the gene regulatory networks
+(GRNs), which explicitly depict the regulatory processes, from
+expression data is one of the most important issues in systems
+biology \citep{basso2005reverse}. The reverse engineering of GRNs
+from expression data is still a challenging problem because of the
+combinatorial nature of the problem and the poor information content
+of the data \citep{margolin2006reverse}. Therefore, developing
+efficient methods for inferring robust GRNs is critical. To achieve
+this goal, the DREAM (Dialogue for Reverse Engineering Assessments
+and Methods) program[ref] and its conference series is devoted to
+encouraging researchers to investigate new powerful methods.
 
-For inferring the GRNs, an efficient measurement of non-linear regulatory relationship, which is common in biology[ref], is of utmost. There is an increased interest in using the MI to  model the dependence between genes since MI is a natural generalization of correlation and it can characterize the non-linear dependency \citep{brunel2010miss,cover2006elements}.  Several MI-based methods have succeeded in inferring the GRNs, such as ARACNE \citep{margolin2006aracne}, CLR \citep{faith2007large}, REL \citep{butte2000mutual} , MRNET \citep{meyer2008minet}  and PCA-MI \citep{zhang2012inferring}. The most popular MI estimators for discretized data are empirical estimator \citep{paninski2003estimation},
-Miller-Madow\citep{paninski2003estimation}, shrinkage \citep{schafer2005shrinkage} and the Schurmann-Grassbergermutual information estimator  \citep{schurmann2002entropy}. The MI estimator for continuous variables is more difficult, and the commonly used strategy is to discretize the data\citep{de2012bagging}. However, estimating the mutual information is challenging since we need to estimate the unknown probability densities. PCA-MI \citep{zhang2012inferring} derived the analytical expression of MI estimator for expression datas of each gene pairs under normal distribution assumption, however,  the gene expression datas can strongly deviate from normality \citep{emmert2010local}.
+For inferring the GRNs, an efficient measurement of non-linear
+regulatory relationship, which is common in biology[ref], is of
+utmost. There is an increased interest in using the MI to  model the
+dependence between genes since MI is a natural generalization of
+correlation and it can characterize the non-linear dependency
+\citep{brunel2010miss,cover2006elements}.  Several MI-based methods
+have succeeded in inferring the GRNs, such as ARACNE
+\citep{margolin2006aracne}, CLR \citep{faith2007large}, REL
+\citep{butte2000mutual} , MRNET \citep{meyer2008minet}  and PCA-MI
+\citep{zhang2012inferring}. The most popular MI estimators for
+discretized data are empirical estimator
+\citep{paninski2003estimation},
+Miller-Madow\citep{paninski2003estimation}, shrinkage
+\citep{schafer2005shrinkage} and the Schurmann-Grassberger mutual
+information estimator  \citep{schurmann2002entropy}. The MI
+estimator for continuous variables is more difficult, and the
+commonly used strategy is to discretize the
+data\citep{de2012bagging}. However, estimating the mutual
+information is challenging since we need to estimate the unknown
+probability densities. PCA-MI \citep{zhang2012inferring} derived the
+analytical expression of MI estimator for expression datas of each
+gene pairs under normal distribution assumption, however,  the gene
+expression datas can strongly deviate from normality
+\citep{emmert2010local}.
 
-Recently, new dependence measurements, such as distance correlation  \citep{szekely2007measuring}, maximal information coefficient (MIC) \citep{reshef2011detecting}, have emerged as efficient tools in evaluating the nonlinear correlation. Among these measurements, DC is one of popular choices thanks to its appealing features. The DC  is a natural generalization of the classical Pearson correlation and has proven its power in detecting nonlinear dependence \citep{gorfine2012comment,szekely2007measuring}. Unlike the MI estimator, the calculation of DC is quite simple without any distribution assumption.  In spite of  these appealing features of DC, this method, to our best knowledge, has not held the attention of the bioinformatics community.
+Recently, new dependence measurements, such as distance correlation
+\citep{szekely2007measuring}, maximal information coefficient (MIC)
+\citep{reshef2011detecting}, have emerged as efficient tools in
+evaluating the nonlinear correlation. Among these measurements, DC
+is one of the most popular choices thanks to its appealing features.
+The DC is a natural generalization of the classical Pearson
+correlation and has proven its power in detecting nonlinear
+dependence \citep{gorfine2012comment,szekely2007measuring}. Unlike
+the MI estimator, the calculation of DC is quite simple without any
+distribution assumption.  In spite of  these appealing features of
+DC, this method, to our best knowledge, has not held the attention
+of the bioinformatics community.
 
 In this article, we aim to incorporate the DC into a series of GRNs inferring algorithms, such as CLR, REL and MRNET. In these algorithms, the dependence between a pair of genes is represented by their DC rather than MI in the previous algorithms. This modification is simple, yet critical due to the power and computational efficiency of DC. Simulated data and real data suggest that this DC-based approaches can improve the accuracy and sensitivity.
 
 \section{METHODS}
 In this section, we will review the definitions of MI and introduce
-the new measure of dependence between random vector, distance
+the new measure of dependence between random vectors, distance
 correlation, for inferring GRNs.
 \subsection{Mutual Information}
 The MI of discrete random variables $X$ and $Y$ is denied as
@@ -230,26 +276,26 @@ network and experiment dataset in E.coli(?) were used to compare the
 performance.
 
 CLR-DC was compared with CLR-MI, MRNET-DC with MRNET-CLR and REL-DC
-with REL-DC. ROC curves and PR curves were plot as below. In these
-results, our DC-methods perform better than MI-methods respectively. 
+with REL-DC. ROC curves and PR curves were plot in \ref{roc-soc} and
+\ref{pr-soc}. In these results, our DC-methods perform better than
+MI-methods respectively.
 
 \begin{figure}[!h]
   \includegraphics[width=0.5\textwidth]{Simroc3.eps}
-  \caption{ROC curves of different methods on Escherichia coli.}\label{roc-sos}
+  \caption{ROC curves of different methods on \emph{Escherichia coli.}}\label{roc-sos}
 \end{figure}
 
 \begin{figure}[!h]
   \includegraphics[width=0.5\textwidth]{Simpr3.eps}
-  \caption{PR curves of different methods on Escherichia coli.}\label{pr-sos}
+  \caption{PR curves of different methods on \emph{Escherichia coli.}}\label{pr-sos}
 \end{figure}
 
-\subsection{Construction of network in noisy data}
-We compare the performance of DC-based method and MI-based method in
-which data is with noise.
+\subsection{Reconstruction of network in noisy data}
+We compare the performance of DC-based methods and MI-based methods
+in which data is with noise.
 
   We use SynTReN to generate mRNA expression data with different
-levels of noise. The networks generated possesses 200 nodes, in
-which 100 nodes are background genes.\\
+levels of noise. The networks generated possesses 200 nodes.
 
 \begin{table}[0.5\textwidth] \tiny
 \centering \caption{Comparison of ROC area and PR area of different
@@ -271,22 +317,23 @@ respectively.}\label{noisy-roc-pr}
 \end{tabular}
 \end{table}
 
- Table \ref{noisy-roc-pr} displays the roc area and pr area for all
- the methods. We can obtain that the DC-based algorithm perform
+ Table \ref{noisy-roc-pr} displays the ROC area and pr area for all
+ these methods. We can obtain that the DC-based algorithms perform
  better then corresponding MI-based algorithms under all the levels
  of noise from above.
 
-   The ROC curve and PR curve for data with 0.2 noise is plotted as
- below. Those with 0.1 noise and 0.3 noise can be found in
+   The ROC curve and PR curve for data with 0.2 noise is plotted in
+   Figure \ref{noisy-roc} and Figure \ref{noisy-pr}
+ . Those with 0.1 noise and 0.3 noise can be found in
  supplementary material.
  \begin{figure}[!h]
   \includegraphics[width=0.5\textwidth]{Simroc4.eps}
-  \caption{ROC curves of different methods on SynTReN data with 0.2 noise}\label{noisy-roc-sos}
+  \caption{ROC curves of different methods on SynTReN data with 0.2 noise}\label{noisy-roc}
 \end{figure}
 
 \begin{figure}[!h]
   \includegraphics[width=0.5\textwidth]{Simpr4.eps}
-  \caption{PR curves of different methods on SynTReN data with 0.2 noise}\label{noisy-pr-sos}
+  \caption{PR curves of different methods on SynTReN data with 0.2 noise}\label{noisy-pr}
 \end{figure}
 
 
