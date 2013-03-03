@@ -222,7 +222,7 @@ respectively.}\label{roc-pr}
 \end{tabular}
 \end{table}
 
-
+%We will delete these comments after we get Simroc3.eps
 \subsection{Construction of SOS network in E.coli}
 \begin{figure}[!h]
   \includegraphics[width=0.5\textwidth]{Simroc3.eps}
@@ -233,6 +233,52 @@ respectively.}\label{roc-pr}
   \includegraphics[width=0.5\textwidth]{Simpr3.eps}
   \caption{PR curves of different methods on Escherichia coli.}\label{pr-sos}
 \end{figure}
+
+\subsection{Construction of network in noisy data}
+We compare the performance of DC-based method and MI-based method in
+which data is with noise.\\
+We use SynTReN to generate mRNA expression data with different
+levels of noise. The networks generated possesses 200 nodes, in
+which 100 nodes are background genes.\\
+
+\begin{table}[0.5\textwidth] \tiny
+\centering \caption{Comparison of ROC area and PR area of different
+methods on SynTReN datasets in noise 0.1, 0.2, 0.3 ,
+respectively.}\label{noisy-roc-pr}
+\begin{tabular}{cccccccc}
+ \hline
+ Method & CLR-MI & CLR-DC & MRNET-MI & MRNET-DC & MI & DC \\
+ \hline
+  ROC area\\
+ 0.1 noise & 0.78 & 0.86 & 0.78 & 0.84 & 0.75 & 0.84  \\
+ 0.2 noise & 0.63 & 0.73 & 0.63 & 0.72 & 0.57 & 0.64 \\
+ 0.3 noise & 0.63 & 0.72 & 0.62 & 0.73 & 0.57 & 0.64 \\
+ PR area\\
+ 0.1 noise & 0.09 & 0.20 & 0.06 & 0.11 & 0.06 & 0.07  \\
+ 0.2 noise & 0.07 & 0.14 & 0.06 & 0.09 & 0.06 & 0.07  \\
+ 0.3 noise & 0.07 & 0.14 & 0.06 & 0.10 & 0.07 & 0.09 \\
+  \hline
+\end{tabular}
+\end{table}
+
+ Table \ref{noisy-roc-pr} displays the roc area and pr area for all
+ the methods. We can obtain that the DC-based algorithm perform
+ better then corresponding MI-based algorithms under all the levels
+ of noise from above.\\
+ The ROC curve and PR curve for data with 0.2 noise is plotted as
+ below. Those with 0.1 noise and 0.3 noise can be found in
+ supplementary material.
+ \begin{figure}[!h]
+  \includegraphics[width=0.5\textwidth]{Simroc4.eps}
+  \caption{ROC curves of different methods on SyNTReN data with 0.2 noise}\label{noisy-roc-sos}
+\end{figure}
+
+\begin{figure}[!h]
+  \includegraphics[width=0.5\textwidth]{Simpr4.eps}
+  \caption{PR curves of different methods on SyNTReN data with 0.2 noise}\label{noisy-pr-sos}
+\end{figure}
+
+
 
 \section{DISCUSSION}
 

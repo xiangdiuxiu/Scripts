@@ -33,5 +33,5 @@ auc.roc(clr_0.tbl)
 auc.roc(mi.tbl)
 
 auc.pr(mr_0.tbl)
-auc.pr(ar_0.tbl)
+auc.pr(clr_0.tbl)
 auc.pr(mi.tbl)
