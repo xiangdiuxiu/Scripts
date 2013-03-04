@@ -343,11 +343,17 @@ respectively.}\label{noisy-roc-pr}
 Non-linear regulatory relationship is an important issue in GRNs, and it is critical to measure the non-linear dependence between gene pairs. In this article,
 we incorporate the well-established DC into three well-known GRNs inference algorithms, CLR, MRNET and REL. Comparing to the previous algorithms which employ the MI to measure the non-linear dependence, the proposed DC-based algorithms can cover the non-linear relation better and hence increasing the effectiveness and efficiency for inferring GRNs. Although we consider three MI-based algorithms, our idea can be generalized to any other MI-based algorithms.
 
-Compared with MI, the DC has its unique strengths. First, unlike estimating MI which needs to discretize the variables as well as estimate the probability density, the calculation of DC is quite straightforward without any distribution assumption. Second, DC has been proven its power in detecting non-linear dependence. Lastly, but importantly, DC can investigate the the joint regulations of a sets of target genes by two or more genes. It should is noted that MI or MIC can only work on pair-wise regulations in GRNs[ref].
+Compared with MI, the DC has its unique strengths. First, unlike
+estimating MI which needs to discretize the variables as well as
+estimate the probability density, the calculation of DC is quite
+straightforward without any distribution assumption. Second, DC has
+been proven its power in detecting non-linear dependence. Lastly,
+but importantly, DC can investigate the the joint regulations of a
+sets of target genes by two or more genes. It is noted that MI or
+MIC can only work on pair-wise regulations in GRNs[ref].
 
-3. discuss the PCA-CMI
-
-4. the limitation
+However, just as the MI-based methods, our DC-based methods are not
+capable of detecting edge directionality either.
 
 
 \section{CONCLUSION}

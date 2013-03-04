@@ -12,3 +12,10 @@ read_test
 *Yeast1.txt
 Yeast50*
 temp/*
+*/data/*
+*Mar2nd*
+*.Rout
+
+*NoiseTest*
+DI/test/test
+*noise0*
