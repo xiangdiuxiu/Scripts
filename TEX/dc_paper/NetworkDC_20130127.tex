@@ -19,30 +19,32 @@ $^{2}$Department of XXXXXXXX, Address XXXX etc.}
 \begin{abstract}
 
 \section{Motivation}
-Non-linear dependence is general in regulation mechanism of gene
+Non-linear dependence is general in regulatory mechanism of gene
 regulatory networks (GRNs). An efficient measurement of non-linear
 dependence is vital for reconstructing GRNs. Mutual information (MI)
 is increasingly being used for identifying the non-linear
-correlation between any pair of genes. However, MI has been proved
+correlation between any pair of genes. However, MI has been proven
 to be with low power in many cases. Incorporating new powerful
-dependence measure into the GRNs is of utmost important in
+dependence measure into the GRNs is of utmost importance in
 understanding the complex regulatory mechanisms within the cellular
 system.
 
 \section{Results} In this work, we present novel methods to improve
-the accuracy of three non-linear GRNs inference algorithms, namely CLR,
-MRNET and REL, from the gene expression data by employing the distance
-correlation. In the proposed methods, the dependence between a pair of
-genes is represented by the distance correlation (DC) between them. In
-particular, the DC does not rely on the distribution assumption and can help to identify the complex
+the accuracy of three non-linear GRNs inference algorithms, namely
+CLR, MRNET and REL, from the gene expression data by employing the
+distance correlation. In the proposed methods, the dependence
+between a pair of genes is represented by the distance correlation
+(DC) between them. In particular, the DC does not rely on the
+distribution assumption and can help to identify the complex
 non-linear relationship between genes. We apply the proposed methods
-to analyze two simulated data,  benchmark GRNs from the DREAM challenge and Syndata from R/Bioconductor package Minet,
-and an experimentally determined SOS DNA repair network in Escherichia
-coli. Our results show that the proposed methods outperforms
-significantly the previous methods. Interestingly, our method is
-able to distinguish direct (or causal) interactions from indirect
-associations even though we consider the un-conditional correlation
-only.
+to analyze two simulated data,  benchmark GRNs from the DREAM
+challenge and Syndata from R/Bioconductor package Minet, and an
+experimentally determined SOS DNA repair network in
+\emph{Escherichia coli}. Our results show that the proposed methods
+outperform significantly the previous methods. Interestingly, our
+method is able to distinguish direct (or causal) interactions from
+indirect associations even though we consider the un-conditional
+correlation only.
 
 \section{Availability:}
 The source data and code are available upon request.
@@ -58,7 +60,7 @@ Supplementary data are available at Bioinformatics online.
 \section{INTRODUCTION}
 
 Taking advantage of the development of high throughout technologies,
-gene expression data provide unique opportunity for investigating
+gene expression data provides unique opportunity for investigating
 the underlying regulatory mechanism of cellular machines
 \citep{hughes2000functional}. Inferring the gene regulatory networks
 (GRNs), which explicitly depict the regulatory processes, from
@@ -87,8 +89,8 @@ discretized data are empirical estimator
 Miller-Madow\citep{paninski2003estimation}, shrinkage
 \citep{schafer2005shrinkage} and the Schurmann-Grassberger mutual
 information estimator  \citep{schurmann2002entropy}. The MI
-estimator for continuous variables is more difficult, and the
-commonly used strategy is to discretize the
+estimator for continuous variables is more difficult to computate,
+and the commonly used strategy is to discretize the
 data\citep{de2012bagging}. However, estimating the mutual
 information is challenging since we need to estimate the unknown
 probability densities. PCA-MI \citep{zhang2012inferring} derived the
@@ -117,7 +119,7 @@ In this section, we will review the definitions of MI and introduce
 the new measure of dependence between random vectors, distance
 correlation, for inferring GRNs.
 \subsection{Mutual Information}
-The MI of discrete random variables $X$ and $Y$ is denied as
+The MI of discrete random variables $X$ and $Y$ is defined as
 \begin{align*}
     I(X,Y)=\sum_{x\in X,y\in Y} p(x,y)\mbox{log}\frac{p(x,y)}{p(x)p(y)},
 \end{align*}
@@ -184,9 +186,15 @@ algorithms are denoted as CLR-DC, MRNET-DC and REL-DC.
 \section{RESULTS}
 In this section, we present the compared results of different methods on two types of simulation datasets.
 \subsection{Validation}
-The predictive performance were evaluated by receiver operator characteristic (ROC) curves and precision-recall (PR) curves.
-The ROC curves is a popular tool for evaluating the predictive results in order to avoid effects of choosing the threshold[ref].  However,
-the ROC curves can overestimate the performance of methods in GRN inference due to the sparsity of GRN[ref]. PR curves is recommended to be an alternative to ROC curves[ref].  In this article, we use ROC curves, which is a scoring metric adopted by DREAM3[ref], as well as PR curves to evaluate the methods.
+The predictive performance was evaluated by receiver operator
+characteristic (ROC) curves and precision-recall (PR) curves. The
+ROC curves is a popular tool for evaluating the predictive results
+in order to avoid effects of choosing the threshold[ref].  However,
+the ROC curves can overestimate the performance of methods in GRN
+inference due to the sparsity of GRN[ref]. PR curves were
+recommended to be an alternative to ROC curves[ref].  In this
+article, we use ROC curves, which is a scoring metric adopted by
+DREAM3[ref], as well as PR curves to evaluate the methods.
 
 Let true positive rate (TPR), false positive rate (FPR), precision quantity ($p$) and recall quantity ($r$) are defined by
 \begin{align*}
@@ -195,12 +203,16 @@ Let true positive rate (TPR), false positive rate (FPR), precision quantity ($p$
     p=\mbox{TP/(TP+FP)},\\
     r=\mbox{TP/(TP+FN)},
 \end{align*}
-where TP, FP, TN and FN are the number of true positives, false positive, true negative and false positive, respectively. The ROC curve is a diagram which plots TPR and FPR, and the FP curve plots the precision ($p$)  versus recall ($r$). The areas under ROC curve (AUC) and PR curve are also calculated.
+where TP, FP, TN and FN are the number of true positive, false
+positive, true negative and false positive, respectively. The ROC
+curve is a diagram which plots TPR and FPR, and the FP curve plots
+the precision ($p$)  versus recall ($r$). The areas under ROC curve
+(AUC) and PR curve are also calculated.
 
 \subsection{Evaluation on simulation data}
 \subsubsection{Simulated data from DREAM challenge}
-{\color{red} Data description} Our simulation data are from DREAM3 about Yeast knock-out gene expression data in sizes
-10, 50, and 100.
+{\color{red} Data description} Our simulation data was from DREAM3
+about Yeast knock-out gene expression data in size 10, 50, and 100.
 
 In order to clearly compare the performances of different methods, the ROC curves and PR curves were plotted.  Figure \ref{roc-curve1} presents the ROC curves on DREAM3 challenge Yeast dataset in size 50. We can see clearly from Figure \ref{roc-curve1} that DC-based algorithms perform much better than the corresponding MI-based algorithms, which indicates the high efficiency of DC in characterizing the non-linear regulatory relationship.
 %To further evaluate the DC-based approaches, we also consider a recently proposed methods PCA-CMI . We choose the threshold value 0.1 suggested in\citep{zhang2012inferring}. We can see that our proposed DC-based methods perform consistently better than PCA-CMI, which underscores the efficiency of distance correlation in inferring non-linear GNRs.
@@ -209,7 +221,7 @@ The same phenomenon can be found in the PR curves in Figure \ref{pr-curve1}. The
 Table \ref{roc-pr} displays the results for the comparison of different methods on DREAM3 challenge Yeast dataset in size 10, 50, 100, respectively. From Table \ref{roc-pr}, it is obviously that DC-based methods improve greatly the accuracy of the corresponding MI-based methods .
 %DC-based methods have better performance than PCA-CMI in the case of network size 50. In the scenarios with network size be 10 and 100, DC-based methods are comparable with MI-based methods.
 
-\subsubsection{Simulated data from Minet} In this section, we also compare the performances of difference methods in another simulated dataset, Syndata, from Minet R/Bioconductor package[ref]. Syndata is simulated by SynTReN network generator. From Table \ref{roc-pr}, we can observe that the DC-based algorithms  consistently outperform the corresponding MI-based algorithms.  For simplicity, the ROC and PR curves are deferred to the supplementary file.
+\subsubsection{Simulated data from Minet} In this section, we also compare the performances of different methods in another simulated dataset, Syndata, from Minet R/Bioconductor package[ref]. Syndata is simulated by SynTReN network generator. From Table \ref{roc-pr}, we can observe that the DC-based algorithms  consistently outperform the corresponding MI-based algorithms.  For simplicity, the ROC and PR curves are deferred to the supplementary file.
 
 
 \begin{figure}
@@ -255,7 +267,8 @@ respectively.}\label{roc-pr}
 \end{table}
 
 \begin{table}[0.5\textwidth] \tiny
-\centering \caption{Comparison of ROC area and PR area of different methods on SOS network in E.coli.}\label{roc-pr}
+\centering \caption{Comparison of ROC area and PR area of different
+methods on SOS network in \emph{E.coli}.}\label{roc-pr}
 \begin{tabular}{cccccccc}
  \hline
  Method & CLR-MI & CLR-DC & MRNET-MI & MRNET-DC & REL-MI & REL-DC \\
@@ -269,14 +282,14 @@ respectively.}\label{roc-pr}
 \end{table}
 
 %We will delete these comments after we get Simroc3.eps
-\subsection{Construction of SOS network in E.coli}
+\subsection{Reconstruction of SOS network in \emph{E.coli}}
 We implemented DC-based methods to identify its performance on
 working in real gene expression data. Well-known SOS DNA repair
-network and experiment dataset in E.coli(?) were used to compare the
-performance.
+network and experiment dataset in \emph{E.coli}(?) were used to
+compare the performance.
 
 CLR-DC was compared with CLR-MI, MRNET-DC with MRNET-CLR and REL-DC
-with REL-DC. ROC curves and PR curves were plot in Figure
+with REL-DC. ROC curves and PR curves were plotted in Figure
 \ref{roc-sos} and Figure \ref{pr-sos}. In these results, our
 DC-methods perform better than MI-methods respectively.
 
@@ -295,7 +308,7 @@ We compare the performance of DC-based methods and MI-based methods
 in which data is with noise.
 
   We use SynTReN to generate mRNA expression data with different
-levels of noise. The networks generated possesses 200 nodes.
+levels of noise. The networks generated possess 200 nodes.
 
 \begin{table}[0.5\textwidth] \tiny
 \centering \caption{Comparison of ROC area and PR area of different
@@ -322,7 +335,7 @@ respectively.}\label{noisy-roc-pr}
  better then corresponding MI-based algorithms under all the levels
  of noise from above.
 
-   The ROC curve and PR curve for data with 0.2 noise is plotted in
+   The ROC curve and PR curve for data with 0.2 noise was plotted in
    Figure \ref{noisy-roc} and Figure \ref{noisy-pr}
  . Those with 0.1 noise and 0.3 noise can be found in
  supplementary material.
@@ -340,17 +353,25 @@ respectively.}\label{noisy-roc-pr}
 
 \section{DISCUSSION}
 
-Non-linear regulatory relationship is an important issue in GRNs, and it is critical to measure the non-linear dependence between gene pairs. In this article,
-we incorporate the well-established DC into three well-known GRNs inference algorithms, CLR, MRNET and REL. Comparing to the previous algorithms which employ the MI to measure the non-linear dependence, the proposed DC-based algorithms can cover the non-linear relation better and hence increasing the effectiveness and efficiency for inferring GRNs. Although we consider three MI-based algorithms, our idea can be generalized to any other MI-based algorithms.
+Non-linear regulatory relationship is an important issue in GRNs,
+and it is critical to measure the non-linear dependence between gene
+pairs. In this article, we incorporate the well-established
+measurement distance corelation into three well-known GRNs inference
+algorithms, CLR, MRNET and REL. Comparing to the previous algorithms
+which employ the MI to measure the non-linear dependence, the
+proposed DC-based algorithms can cover the non-linear relation
+better and hence increasing the effectiveness and efficiency for
+inferring GRNs. Although we consider three MI-based algorithms, our
+idea can be generalized to any other MI-based algorithms.
 
-Compared with MI, the DC has its unique strengths. First, unlike
+Compared with MI, the DC has its unique strength. First, unlike
 estimating MI which needs to discretize the variables as well as
-estimate the probability density, the calculation of DC is quite
+estimate the probability density, the computation of DC is quite
 straightforward without any distribution assumption. Second, DC has
 been proven its power in detecting non-linear dependence. Lastly,
 but importantly, DC can investigate the the joint regulations of a
-sets of target genes by two or more genes. It is noted that MI or
-MIC can only work on pair-wise regulations in GRNs[ref].
+set of target genes by two or more genes. It is noted that MI or MIC
+can only work on pair-wise regulations in GRNs[ref].
 
 However, just as the MI-based methods, our DC-based methods are not
 capable of detecting edge directionality either.
@@ -359,9 +380,9 @@ capable of detecting edge directionality either.
 \section{CONCLUSION}
 In this paper, we introduce distance correlation into inferring GRNs
 from gene expression data. Distance correlation is powerful for
-measuring dependence. It take the nonlinear dependence of GRNs into
+measuring dependence. It takes the nonlinear dependence of GRNs into
 account and it is easy to calculate even without normal assumption.
-Moreover, It improve the accuracy. We compare the performance
+Moreover, It improves the accuracy. We compare the performance
 between MI-based methods and DC-based methods. The results of all
 simulation data, real data and noisy data demonstrate that DC-based
 methods are superior to MI-based methods.
