@@ -374,18 +374,32 @@ set of target genes by two or more genes. It is noted that MI or MIC
 can only work on pair-wise regulations in GRNs[ref].
 
 However, just as the MI-based methods, our DC-based methods are not
-capable of detecting edge directionality either.
+capable of detecting edge directionality either. Inferring edge
+directionality is a general problem for many GRN inference
+algorithms. This issue can be partially addressed by a two-stage
+approach in which the undirected GRN is inferred first, and then
+edge directionality is inferred using methods such as linear
+regression or specific biochemical perturbation
+method\citep{carrera2009model,margolin2006reverse}. In any case,
+this issue is not well understood. Furthermore, the proposed
+DC-based algorithms were designed to detect the direct interaction.
+Extending the DC-based methods to distinguish the direct
+interactions from indirect ones can help identify the false positive
+interactions hence increasing the detecting power, which will be
+considered in our future work.
 
 
 \section{CONCLUSION}
-In this paper, we introduce distance correlation into inferring GRNs
-from gene expression data. Distance correlation is powerful for
-measuring dependence. It takes the nonlinear dependence of GRNs into
-account and it is easy to calculate even without normal assumption.
-Moreover, It improves the accuracy. We compare the performance
-between MI-based methods and DC-based methods. The results of all
-simulation data, real data and noisy data demonstrate that DC-based
-methods are superior to MI-based methods.
+In this paper, we proposed a series of DC-based algorithms for
+inferring GRNs from gene expression data by accounting for the
+nonlinear dependence.  In these algorithms, we use the DC rather
+than MI to characterize the nonlinear correlation between genes. DC
+has appealing features such as computational efficiency, without
+normality assumption and powerful in detecting nonlinear dependence.
+The proposed DC-based algorithms performed superior to corresponding
+MI-based algorithms on simulation datasets and real dataset, which
+demonstrate the effectiveness and efficiency of our proposed
+methods.
 
 \bibliographystyle{natbib}
 %\bibliographystyle{achemnat}
