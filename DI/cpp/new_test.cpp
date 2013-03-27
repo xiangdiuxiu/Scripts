@@ -2,13 +2,13 @@
 //v0.01
 //Author: ZhangYet
 //
-//#include <iostream>
-//#include <fstream>
-//#include <string>
-//#include "armadillo"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "armadillo"
+using namespace std;
+using namespace arma;
 
-//using namespace arma;
-//using namespace std;
 #include "identify.h"
 
 mat makeMatrix(ifstream &fin, int m, int n)
@@ -35,4 +35,23 @@ mat makeNetwork(mat &data, double alpha)
   net.elem(indices_0) = zeros<vec>(indices_0.n_elem);
   net.elem(indices_1) = ones<vec>(indices_1.n_elem);
   return net;
+}
+
+
+int main(int argc, char** argv)
+{
+  ifstream fin(argv[1], ios::in);
+  if(!fin){
+    cerr<<"error: unable to open inputfile: "<< argv[1]<<endl;
+    return -1;
+  }
+  //m,n are nrow and ncol of the matrix we make
+  int m = 100; 
+  int n = 160;
+  
+  mat matData = makeMatrix(fin, m, n);
+  mat matNetwork = makeNetwork(matData, 0.75);
+  matNetwork.print();
+  fin.close();
+  return 0;
 }
