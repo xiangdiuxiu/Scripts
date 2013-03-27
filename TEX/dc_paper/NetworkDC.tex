@@ -1,0 +1,475 @@
+\documentclass{bioinfo}
+\usepackage{graphicx}
+\copyrightyear{2005} \pubyear{2005}
+
+\begin{document}
+\firstpage{1}
+
+\title[short Title]{Inferring nonlinear gene regulatory networks from gene expression data based on distance correlation}
+\author[Sample \textit{et~al}]{Corresponding Author\,$^{1,*}$, Co-Author\,$^{2}$ and Co-Author\,$^2$\footnote{to whom correspondence should be addressed}}
+\address{$^{1}$Department of XXXXXXX, Address XXXX etc.\\
+$^{2}$Department of XXXXXXXX, Address XXXX etc.}
+
+\history{Received on XXXXX; revised on XXXXX; accepted on XXXXX}
+
+\editor{Associate Editor: XXXXXXX}
+
+\maketitle
+
+\begin{abstract}
+
+\section{Motivation}
+Nonlinear dependence is general in regulation mechanism of gene
+regulatory networks (GRNs). An efficient measurement of nonlinear
+dependence is vital for reconstructing GRNs. Mutual information (MI)
+is increasingly being used for identifying the nonlinear correlation
+between any pair of genes. However, MI has been proven to be with
+low power in many cases. Incorporating new powerful dependence
+measure into the GRNs inferring is of utmost importance in
+understanding the complex regulatory mechanisms within the cellular
+system.
+
+\section{Results} In this work, we present novel methods to improve
+the accuracy of three nonlinear GRNs inference algorithms, namely
+CLR, MRNET and REL, from the gene expression data by employing the
+distance correlation. In the proposed methods, the dependence
+between a pair of genes is represented by the distance correlation
+(DC) between them. In particular, the DC does not rely on the
+distribution assumption and can help to identify the complex
+nonlinear relationship between genes. We apply the proposed methods
+to analyze two simulated data,  benchmark GRNs from the DREAM
+challenge, and an experimentally determined SOS DNA repair network
+in\emph{E.coli}. Our results show that the proposed methods
+outperform significantly the previous methods.
+{\color{red}Interestingly, our method is able to distinguish direct
+(or causal) interactions from indirect associations even though we
+consider the unconditional correlation only.}
+
+\section{Availability:}
+The source data and code are available upon request.
+
+\section{Contact:} \href{wangxq88@mail.sysu.edu.cn}{wangxq@mail.sysu.edu.cn}
+
+\section{Supplementary information:}
+Supplementary data is available at Bioinformatics online.
+
+
+\end{abstract}
+
+\section{INTRODUCTION}
+
+Taking advantage of the development of high throughout technologies,
+gene expression data provides unique opportunity for investigating
+the underlying regulatory mechanism of cellular machines
+\citep{hughes2000functional}. Inferring the gene regulatory networks
+(GRNs), which explicitly depicts the regulatory processes, from
+expression data is one of the most important issues in systems
+biology \citep{basso2005reverse}. The reverse engineering of GRNs
+from expression data is still a challenging problem because of the
+combinatorial nature of the problem and the poor information content
+of the data \citep{margolin2006reverse}. Therefore, developing
+efficient methods for inferring robust GRNs is critical. To achieve
+this goal, the DREAM (Dialogue for Reverse Engineering Assessments
+and Methods) program[ref] and its conference series are devoted to
+encouraging researchers to investigate new powerful methods.
+
+For inferring the GRNs, an efficient measurement of nonlinear
+regulatory relationship, which is common in biology[ref], is of
+utmost importance. There is an increasing interest in using the MI
+to model the dependence between genes since MI is a natural
+generalization of correlation and it can characterize the nonlinear
+dependency \citep{brunel2010miss,cover2006elements}.  Several
+MI-based methods have succeeded in inferring the GRNs, such as
+ARACNE \citep{margolin2006aracne}, CLR \citep{faith2007large}, REL
+\citep{butte2000mutual} , MRNET \citep{meyer2008minet}  and PCA-MI
+\citep{zhang2012inferring}. The most popular MI estimators for
+discretized data are empirical estimator
+\citep{paninski2003estimation},
+Miller-Madow\citep{paninski2003estimation}, shrinkage
+\citep{schafer2005shrinkage} and the Schurmann-Grassberger mutual
+information estimator  \citep{schurmann2002entropy}. The MI
+estimator for continuous variables is more difficult, and the
+commonly used strategy is to discretize the
+data\citep{de2012bagging}. However, estimating the mutual
+information is challenging since we need to estimate the unknown
+probability densities. PCA-MI \citep{zhang2012inferring} derived the
+analytical expression of MI estimator for expression datas of each
+gene pairs under normal distribution assumption, however,  the gene
+expression datas can strongly deviate from normality
+\citep{emmert2010local}.
+
+Recently, new dependence measurements, such as distance correlation
+\citep{szekely2007measuring}, maximal information coefficient (MIC)
+\citep{reshef2011detecting}, have emerged as efficient tools in
+evaluating the nonlinear correlation. Among these measurements, DC
+is one of the most popular choices thanks to its appealing features.
+The DC is a natural generalization of the classical Pearson
+correlation and has proven its power in detecting nonlinear
+dependence \citep{gorfine2012comment,szekely2007measuring}. Unlike
+the MI estimator, the calculation of DC is quite simple without any
+distribution assumption.  In spite of  these appealing features of
+DC, this method, to our best knowledge, has not held the attention
+of the bioinformatics community.
+
+In this article, we aim to incorporate the DC into a series of GRNs
+inferring algorithms, such as CLR, REL and MRNET. In these
+algorithms, the dependence between a pair of genes is represented by
+their DC rather than MI in the previous algorithms. This
+modification is simple, yet critical due to the power and
+computational efficiency of DC. Simulated data and real data suggest
+that this DC-based approaches can improve the accuracy and
+sensitivity.
+
+\section{METHODS}
+In this section, we will review the definitions of MI and introduce
+the new measure of dependence between random vectors, distance
+correlation, for inferring GRNs.
+\subsection{Mutual Information}
+The MI of discrete random variables $X$ and $Y$ is denied as
+\begin{align*}
+    I(X,Y)=\sum_{x\in X,y\in Y} p(x,y)\mbox{log}\frac{p(x,y)}{p(x)p(y)},
+\end{align*}
+where $p(x),p(y)$ are the probabilities of values $x$ in $X$ and $y$
+in $Y$, respectively, and $p(x,y)$ is the joint probability of
+values $x$ in $X$ and $y$ in $Y$.
+
+In the case of continuous random variables, the MI is defined as
+\begin{align*}
+    I(X,Y)=\int_X\int_Y p(x,y)\mbox{log}\frac{p(x,y)}{p(x)p(y)}dxdy,
+\end{align*}
+where $p(x,y)$ is the joint probability density of $X$ and $Y$, and $p(x)$ and $p(y)$ are the probability density of $X$ and $Y$, respectively.
+
+In order to calculate the MI, it is necessary to estimate the unknown probability distributions or probability densities $p(x)$, $p(y)$ and $p(x,y)$, respectively.
+
+\subsection{Distance correlation}
+Distance correlation was proposed by \cite{szekely2007measuring} as an effective way to detect the dependency. The main
+idea is to measure the distance of the joint characteristics function
+and the corresponding marginal characteristics functions. Specifically,
+let $f_{x,y}(t,s)$ be the joint characteristics function of $X$
+and $Y$, and $f_x(t)$ and $f_y(t)$ are the marginal characteristics
+function of $X$ and $Y$ respectively.  The distance
+covariance between $X$ and $Y$ is defined as follows,
+$$dcov^2(X,Y)=\int_{R^{p+q}}|f_{x,y}(t,s)-f_x(t)f_y(s)|^2
+w(t,s)dtds,$$ where $p$ and $q$ are the dimensions of $X$ and $Y$,
+respectively, and $w(t,s)$ is the weight function given by $(c_p c_q
+|t|_p^{p+1}|s|_q^{q+1})^{-1}$ with
+$c_p=\pi^{(1+p)/2}\Gamma((1+p)/2)$ and
+$c_q=\pi^{(1+q)}/2\Gamma((1+q)/2)$. To standardize the distance
+covariance, the distance correlation is defined as,
+$$dcor(X,Y)=\frac{dcov(X,Y)}{\sqrt{dcov(X,X)}\sqrt{dcov(Y,Y)}},$$
+which shares the same form as the definition of Pearson correlation. It can be shown that the
+empirical distance correlation can be calculated by
+$$\mathcal{V}^n(x,y)=S_1+S_2-2S_3,$$
+where
+\begin{align*}
+S_1=\frac{1}{n^2}\sum_{k,l=1}^{n}|x_k-x_l|_p|y_k-y_l|_q,\\
+S_2=\frac{1}{n^2}\sum_{k,l=1}^{n}|x_k-x_l|_p\frac{1}{n^2}\sum_{k,l=1}^n|y_k-y_l|_q,\\
+S_3=\frac{1}{n^3}\sum_{k=1}^{n}\sum_{l,m=1}^n|x_k-x_l|_p|y_k-y_m|_q,
+\end{align*}
+and $n$ is the sample size.
+
+\subsection{Inferring gene regulatory networks based on distance correlation}
+In this article, we mainly consider three gene regulatory network
+inference algorithms, they are CLR, MRNET and REL. These methods
+require at first the computation of the dependence matrix $D$ whose
+$i,j$ element $D_{ij}$ measures the dependence between variables
+(genes) $X_i$ and $X_j$. The original algorithms use MI to
+characterize the nonlinear association between genes, that is
+\begin{align*}
+D_{ij}=I(X_i,X_j).
+\end{align*}
+For detailed information about these algorithms, we refer the
+readers to \citep{faith2007large,meyer2008minet,butte2000mutual}. However, estimating mutual information
+is a tough task and estimation is usually unstable and biased \citep{meyer2008minet, de2012bagging}. Here we use the computationally efficient distance correlation as an alternate of MI to
+model the dependence matrix, that is
+\begin{align*}
+D_{ij}=dcor(X_i,X_j).
+\end{align*}
+For the sake of clarification, we denote the MI-based algorithms as
+CLR-MI, MRNET-MI and REL-MI. The DC-based algorithms are denoted as
+CLR-DC, MRNET-DC and REL-DC.
+
+
+\section{RESULTS}
+In this section, we present the compared results of different
+methods on simulation data and real data.
+\subsection{Validation}
+The evaluation performance was evaluated by receiver operator
+characteristic (ROC) curve and precision-recall (PR) curve. The ROC
+curve is a popular tool for evaluating the predictive results in
+order to avoid effects of choosing the threshold.  However, the ROC
+curve can overestimate the performance of methods in GRN inference
+due to the sparsity of GRN\citep{davis2006relationship}. PR curve is
+recommended to be an alternative to ROC
+curves\citep{meyer2007information}.  In this article, we use ROC
+curve, which is a scoring metric adopted by DREAM3[ref], as well as
+PR curves to evaluate the methods.
+
+True positive rate (TPR), false positive rate (FPR), precision
+quantity ($p$) and recall quantity ($r$) are defined by
+\begin{align*}
+    \mbox{TPR=TP/(TP+FN}),\\
+    \mbox{FPR=FP/(TP+TN)},\\
+    p=\mbox{TP/(TP+FP)},\\
+    r=\mbox{TP/(TP+FN)},
+\end{align*}
+where TP, FP, TN and FN are the number of true positives, false
+positives, true negatives and false positives, respectively. The ROC
+curve is a diagram which plots TPR and FPR, and the PR curve plots
+the precision ($p$)  versus recall ($r$). The areas under ROC curve
+(AUC) and PR curve are also calculated.
+
+\subsection{Evaluation on simulation data}
+\subsubsection{Simulated data from DREAM challenge}
+We first evaluate our methods on widely used Yeast knock-out gene
+expression data in size 10, 50, and 100 from DREAM3 in-silico
+network challenge\citep{marbach2009generating, marbach2010revealing,
+prill2010towards}. Dream challenge is a Dialogue for Reverse
+Engineering Assessments and Methods, which provides a standard
+assessment of methods for GRNs inference. In the Dream3 challenge,
+the Yeast knock-out gene expression datasets and their gold standard
+networks were given.
+
+In order to clearly compare the performances of different methods,
+the ROC curves and PR curves were plotted.  Figure \ref{roc-curve1}
+presents the ROC curves on DREAM3 challenge Yeast dataset in size
+10. We can see clearly from Figure \ref{roc-curve1} that DC-based
+algorithms perform much better than the corresponding MI-based
+algorithms, which indicates the high efficiency of DC in
+characterizing the nonlinear regulatory relationship.
+%To further evaluate the DC-based approaches, we also consider a recently proposed methods PCA-CMI . We choose the threshold value 0.1 suggested in\citep{zhang2012inferring}. We can see that our proposed DC-based methods perform consistently better than PCA-CMI, which underscores the efficiency of distance correlation in inferring nonlinear GNRs.
+The same phenomenons can be found in the PR curves in Figure
+\ref{pr-curve1}. The ROC curves and PR curves of different methods
+on Yeast gene expression data in size 50 and 100 are described in
+Supplementary Figure S1-4. In these two cases, DC-based methods
+consistently outperform  the MI-based methods.
+
+Figure \ref{network} displays the comparison of networks inferred by  REL-MI and REL-DC from DREAM3 challenge Yeast dataset in size 10. To comparing the performance of the REL-MI and REL-DC methods equally, we set the true positive rates of both methods to be 0.8 and then compare the false positives. We can observe from Figure \ref{network}B that there are four false positives G5-G4,G5-G2,G4-G2 and G1-G9 by  REL-DC.  The four non-existing regulations G5-G4,G5-G2,G4-G2 and G1-G9 are probably incurred by the co-regulators, while MI-based methods only work on the pair-wise association. Figure \ref{network}C is the inferred network by REL-DC. Clearly, the false positives G5-G4,G5-G2 and G1-G9 are successfully removed by REL-DC, indicating  DC-based methods work well when distinguishing direct (or causal) interactions from indirect associations.
+
+ Table \ref{roc-pr} displays the results for the comparison of different methods on DREAM3 challenge Yeast dataset in size 10, 50, 100, respectively. From Table \ref{roc-pr}, it is obviously that DC-based methods improve greatly the accuracy of GRNs inference compared with MI-based methods.
+%DC-based methods have better performance than PCA-CMI in the case of network size 50. In the scenarios with network size be 10 and 100, DC-based methods are comparable with MI-based methods.
+
+\begin{figure}
+  \includegraphics[width=0.5\textwidth]{Simroc1.eps}
+  \caption{ROC curves of different methods on DREAM3 challenge Yeast dataset in size 10.}\label{roc-curve1}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=0.5\textwidth]{Simpr1.eps}
+  \caption{ PR curves of different methods on DREAM3 challenge Yeast dataset in size 10.}\label{pr-curve1}
+\end{figure}
+
+\begin{figure}[!h]
+  \includegraphics[width=0.5\textwidth]{network.eps}
+  \caption{Comparison of networks inferred from DREAM3 challenge Yeast dataset in size 10. (A) The true network with 10 nodes and 10 edges. (B)
+  Network Inferred by using the REL-MI method. The orange lines G5-G4,G5-G2,G4-G2 and G1-G9 are false positives, while G4-G9 and G3-G5 are false
+  negative. (C) Network Inferred by using the REL-DC method. The orange lines G4-G2 is false positives, while G4-G9 and G5-G7 are false
+  negative. }\label{network}
+\end{figure}
+
+%\begin{figure}
+%  \includegraphics[width=0.5\textwidth]{Simroc2.eps}
+%  \caption{ROC curves of different methods on Syndata with size 50.}\label{roc-curve2}
+%\end{figure}
+%
+%\begin{figure}[!h]
+%  \includegraphics[width=0.5\textwidth]{Simpr2.eps}
+%  \caption{PR curves of different methods on Syndata with size 50.}\label{pr-curve2}
+%\end{figure}
+
+
+\begin{table}[0.5\textwidth] \tiny
+\centering \caption{Comparison of ROC area and PR area of different methods on DREAM3 challenge Yeast dataset in size 10, 50, 100 and Syndata,
+respectively.}\label{roc-pr}
+\begin{tabular}{cccccccc}
+ \hline
+ Method & CLR-MI & CLR-DC & MRNET-MI & MRNET-DC & REL-MI & REL-DC \\
+ \hline
+  ROC area\\
+ Size10 & 0.83 & 0.99 & 0.81 & 0.99 & 0.86 & 0.99  \\
+ Size50 & 0.79 & 0.89 & 0.76 & 0.89 & 0.79 & 0.89 \\
+ Size100 & 0.8 & 0.87 & 0.78 & 0.85 & 0.75 & 0.86 \\
+ %Syndata & 0.8 & 0.81 & 0.77 & 0.81 & 0.77 & 0.81 \\
+ PR area\\
+ Size10 & 0.63 & 0.94 & 0.5 & 0.97 & 0.72 & 0.92  \\
+ Size50 & 0.19 & 0.5 & 0.16 & 0.52 & 0.34 & 0.47  \\
+ Size100 & 0.15 & 0.43 & 0.14 & 0.36 & 0.12 & 0.35 \\
+ %Syndata & 0.19 & 0.27 & 0.18 & 0.18 & 0.16 & 0.17  \\
+  \hline
+\end{tabular}
+\end{table}
+
+
+\subsubsection{Simulated data from SynTReN}
+
+In this section, we also compare the performances of difference
+methods in another simulated datasets generated by SynTReN network
+generator, which is used to create synthetic transcriptional
+regulatory network and respective simulated data from source
+network,  with different levels of noise. The number of nodes in the
+networks which we generated from \emph{E.coli} is set to be 200, in
+which there were 100 nodes for background network. From Table
+\ref{noisy-roc-pr}, we can observe that the DC-based algorithms
+consistently outperform the corresponding MI-based algorithms.  For
+simplicity, the ROC and PR curves of different methods with noise
+0.2 are displayed in Figure \ref{noisy-roc} and Figure
+\ref{noisy-pr}. The the ROC and PR curves of different methods with
+noise 0.1 and 0.3 are deferred to the supplementary file.
+
+%\subsubsection{Reconstruction of network in noisy data}
+%We compare the performance of DC-based methods and MI-based methods
+%in which data is with noise.
+%
+%  We use SynTReN to generate mRNA expression data with different
+%levels of noise. The networks generated possesses 200 nodes.
+
+\begin{table}[0.5\textwidth] \tiny
+\centering \caption{Comparison of ROC area and PR area of different
+methods on SynTReN datasets with noise 0.1, 0.2, 0.3, respectively.}\label{noisy-roc-pr}
+\begin{tabular}{cccccccc}
+ \hline
+ Method & CLR-MI & CLR-DC & MRNET-MI & MRNET-DC & MI & DC \\
+ \hline
+  ROC area\\
+ 0.1 noise & 0.78 & 0.86 & 0.78 & 0.84 & 0.75 & 0.84  \\
+ 0.2 noise & 0.63 & 0.73 & 0.63 & 0.72 & 0.57 & 0.64 \\
+ 0.3 noise & 0.63 & 0.72 & 0.62 & 0.73 & 0.57 & 0.64 \\
+ PR area\\
+ 0.1 noise & 0.09 & 0.20 & 0.06 & 0.11 & 0.06 & 0.07  \\
+ 0.2 noise & 0.07 & 0.14 & 0.06 & 0.09 & 0.06 & 0.07  \\
+ 0.3 noise & 0.07 & 0.14 & 0.06 & 0.10 & 0.07 & 0.09 \\
+  \hline
+\end{tabular}
+\end{table}
+
+
+ \begin{figure}[!h]
+  \includegraphics[width=0.5\textwidth]{Simroc4.eps}
+  \caption{ROC curves of different methods on SynTReN data with 0.2 noise}\label{noisy-roc}
+\end{figure}
+
+\begin{figure}[!h]
+  \includegraphics[width=0.5\textwidth]{Simpr4.eps}
+  \caption{PR curves of different methods on SynTReN data with 0.2 noise}\label{noisy-pr}
+\end{figure}
+
+
+
+\begin{table}[0.5\textwidth] \tiny
+\centering \caption{Comparison of ROC area and PR area of different methods on SOS network in E.coli.}\label{sos-roc-pr}
+\begin{tabular}{cccccccc}
+ \hline
+ Method & CLR-MI & CLR-DC & MRNET-MI & MRNET-DC & REL-MI & REL-DC \\
+ \hline
+  ROC area\\
+  SOS     & 0.51 & 0.67 & 0.53 & 0.71 & 0.81 & 0.80 \\
+ PR area\\
+  SOS   & 0.59 &0.78 & 0.66 & 0.77 & 0.87 & 0.85 \\
+  \hline
+\end{tabular}
+\end{table}
+
+%We will delete these comments after we get Simroc3.eps
+\subsection{Construction of SOS network in E.coli}
+We implemented DC-based methods to identify its performance on
+working in real gene expression data. Well-known SOS DNA repair
+network and experiment dataset in \emph{E.coli}(?) were used to
+compare the performance.
+
+CLR-DC was compared with CLR-MI, MRNET-DC with MRNET-CLR and REL-DC
+with REL-DC. ROC curves and PR curves were plot in Figure
+\ref{roc-sos} and Figure \ref{pr-sos}. In these results, our
+DC-methods perform better than MI-methods respectively.
+
+\begin{figure}[!h]
+  \includegraphics[width=0.5\textwidth]{Simroc3.eps}
+  \caption{ROC curves of different methods on \emph{Escherichia coli.}}\label{roc-sos}
+\end{figure}
+
+\begin{figure}[!h]
+  \includegraphics[width=0.5\textwidth]{Simpr3.eps}
+  \caption{PR curves of different methods on \emph{Escherichia coli.}}\label{pr-sos}
+\end{figure}
+
+
+
+
+\section{DISCUSSION}
+
+Nonlinear regulatory relationship is an important issue in GRNs, and
+it is critical to measure the nonlinear dependence between gene
+pairs. In this article, we incorporate the well-established DC into
+three well-known GRNs inference algorithms, CLR, MRNET and REL.
+Compared to the previous algorithms which employ the MI to measure
+the nonlinear dependence, the proposed DC-based algorithms can cover
+the nonlinear relation better and hence increase the effectiveness
+and efficiency for inferring GRNs. Although we only propose three
+MI-based algorithms, our idea can be generalized to any other
+MI-based algorithms.
+
+Compared with MI, the DC has its unique strengths. First, unlike
+estimating MI which needs to discretize the variables as well as
+estimate the probability density, the calculation of DC is quite
+straightforward without any distribution assumption. Second, DC has
+been proven its power in detecting nonlinear dependence [ref,
+Science comment]. What's more, DC has more graceful mathematical and
+statistical properties. As a measurement of two characteristic
+functions in Hilbert space, the DC of two variables equals to zero
+means the independence of these two variables. Lastly, but
+importantly, DC can directly investigate the the joint regulations
+of a set of target genes by two or more genes. However, to our best
+knowledge, MI or MIC can work on pair-wise regulations in GRNs only.
+Even though the three-way mutual information
+(MI3)\citep{luo2008learning}, a modified version of MI, was designed
+to detect the co-regulators of target genes, the extension is not
+straightforward and MI3 can only detect two of the
+co-regulators\citep{zhang2012inferring}. Employing the DC to
+investigate the joint regulations issue is an interesting topic,
+which warrants further investigation.
+
+However, just as the MI-based methods, our DC-based methods are not
+capable of detecting edge directionality either. Inferring edge
+directionality is a general problem for many GRN inference
+algorithms. This issue can be partially addressed by a two-stage
+approach in which the undirected GRN is inferred first, and then
+edge directionality is inferred using methods such as linear
+regression or specific biochemical perturbation
+methods\citep{carrera2009model,margolin2006reverse}. In any case,
+this issue is not well understood. Furthermore, the proposed
+DC-based algorithms were designed to detect the direct interaction.
+Extending the DC-based methods to distinguish the direct
+interactions from indirect ones can help identify the false positive
+interactions hence increase the detecting power, which will be
+considered in our future work.
+
+
+\section{CONCLUSION}
+Inferring GRNs from gene expression data is of utmost importance for
+understanding the regulatory mechanisms. However, the popular
+measure of dependence MI performs poorly in some occasions.
+Therefore we incorporate DC, a new nonlinear dependence measure into
+GRNs inferring.
+
+In this paper, we proposed a series of  DC-based algorithms for
+inferring GRNs from gene expression data taking the nonlinear
+dependence into consider. In these algorithms, we use the DC rather
+than MI to characterize the nonlinear correlation between genes. DC
+has appealing features such as computational efficiency, no
+normality assumption and power in detecting nonlinear dependence.
+The proposed DC-based algorithms performed superior to corresponding
+MI-based algorithms on simulation datasets and real dataset, which
+demonstrates the effectiveness and efficiency of our proposed
+methods.
+
+
+\bibliographystyle{natbib}
+%\bibliographystyle{achemnat}
+%\bibliographystyle{plainnat}
+%\bibliographystyle{abbrv}
+%\bibliographystyle{bioinformatics}
+%\bibliographystyle{plain}
+%\bibliography{Document}
+
+\bibliography{refs}
+
+\end{document}
