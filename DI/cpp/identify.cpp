@@ -27,7 +27,7 @@ mat makeMatrix(ifstream &fin, int m, int n)
   return A;
 }
 
-mat makeNetwork(mat &data, double alpha)
+extern mat makeNetwork(mat &data, double alpha)
 {
   mat net = cor(data);
   uvec indices_0 = find(net<alpha);

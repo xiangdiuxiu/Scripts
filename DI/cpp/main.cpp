@@ -7,6 +7,8 @@
 using namespace std;
 using namespace arma;
 
+extern mat makeNetwork(mat &,double);
+
 int main(int argc, char** argv)
 {
   ifstream fin(argv[1], ios::in);
@@ -20,6 +22,7 @@ int main(int argc, char** argv)
   
   mat matData = makeMatrix(fin, m, n);
   mat matNetwork = makeNetwork(matData, 0.75);
+  matNetwork.print();
   fin.close();
   return 0;
 }

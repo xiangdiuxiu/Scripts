@@ -8,4 +8,4 @@ using namespace arma;
 using namespace std;
 
 mat makeMatrix(ifstream &, int, int);
-mat makeNetwrok(mat &, double);
+extern mat makeNetwrok(mat &, double);
