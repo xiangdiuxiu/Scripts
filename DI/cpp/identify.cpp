@@ -36,3 +36,15 @@ extern mat makeNetwork(mat &data, double alpha)
   net.elem(indices_1) = ones<vec>(indices_1.n_elem);
   return net;
 }
+
+extern int getRow(int index, int collen)
+{
+  return (index % collen==0)?1:(index % collen);
+}
+extern int getCol(int index, int collen)
+{
+  if(index/collen == 0)
+    return 1;
+  else
+    return getRow(index-collen,collen)+1;
+}
