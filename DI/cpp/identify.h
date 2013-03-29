@@ -4,6 +4,7 @@
 #include <string>
 #include "armadillo"
 #include <set>
+#include <gsl/gsl_rng.h>
 
 using namespace arma;
 using namespace std;
@@ -14,3 +15,4 @@ extern int getRow(int, int);
 extern int getCol(int, int);
 extern set<int> getGeneSet(uvec &, int);
 extern mat mergeNetwork(mat &, mat&);
+extern vector<int> randomSample(int, int, int);

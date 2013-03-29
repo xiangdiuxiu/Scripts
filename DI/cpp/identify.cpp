@@ -1,14 +1,7 @@
 
 //v0.01
 //Author: ZhangYet
-//
-//#include <iostream>
-//#include <fstream>
-//#include <string>
-//#include "armadillo"
 
-//using namespace arma;
-//using namespace std;
 #include "identify.h"
 
 mat makeMatrix(ifstream &fin, int m, int n)
@@ -73,7 +66,35 @@ extern mat mergeNetwork(mat &net1, mat &net2)
   uvec indices = find(net1==net2);
   res.elem(indices) = zeros<vec>(indices.n_elem);
   uvec indices2 = find(res>0);
-  res.elem(indices2)=ones<vec>(indices2.n_elem);
+  res.elem(indices2) = ones<vec>(indices2.n_elem);
   return res;
 
+}
+
+extern vector<int> randomSample(int m, int min, int max)
+{
+  vector<int> res;
+  const gsl_rng_type *T;
+  gsl_rng *r;
+  gsl_rng_env_setup();
+  T = gsl_rng_default;
+  r = gsl_rng_alloc(T);
+  set<int> temp;
+
+  while(temp.size()<m)
+  {
+    cout<<temp.size()<<endl;
+    double u=gsl_rng_uniform(r);
+    int j=min+int((max-min)*u);
+    temp.insert(j);
+
+  }
+  set<int>::iterator it = temp.begin();
+  while(it != temp.end())
+  {
+    res.push_back((*it));
+    it++;
+  }
+  gsl_rng_free(r);
+  return res;
 }

@@ -17,7 +17,15 @@ int main(int argc, char** argv)
   matNetwork = mergeNetwork(matNetwork, matNetwork2);
   uvec indices = find(matNetwork==1.0);
   set<int> res = getGeneSet(indices, m);
-  
+  vector<int> rindices = randomSample(3,0,99);
+  uvec rtest(3);
+  for(int i = 0; i < 3; i++)
+    rtest(i) = rindices[i];
+  cout<<"rtest:"<<endl;
+  rtest.print();
+  mat newTest = matData.cols(rtest);
+  cout<<"newTest:"<<endl;
+  newTest.print();
   cout<<res.size()<<endl;
   set<int>::iterator it = res.begin();
   for(;it!=res.end();it++)

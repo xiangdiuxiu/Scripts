@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <set>
+#include <vector>
 #include "armadillo"
 #include "identify.h"
 
