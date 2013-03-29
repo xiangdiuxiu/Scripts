@@ -32,6 +32,8 @@ extern mat makeNetwork(mat &data, double alpha)
   mat net = cor(data);
   uvec indices_0 = find(net<alpha);
   uvec indices_1 = find(net>=alpha);
+  cout<<"n edge:"<<indices_1.n_elem<<endl;
+  cout<<"n null:"<<indices_0.n_elem<<endl;
   net.elem(indices_0) = zeros<vec>(indices_0.n_elem);
   net.elem(indices_1) = ones<vec>(indices_1.n_elem);
   return net;
@@ -47,4 +49,31 @@ extern int getCol(int index, int collen)
     return 1;
   else
     return getRow(index-collen,collen)+1;
+}
+
+extern set<int> getGeneSet(uvec & v, int collen)
+{
+  set<int> res;
+  int col,row;
+  for(int i=0; i<v.n_elem; i++)
+    {
+      col = getCol(v(i), collen);
+      res.insert(col);
+      row = getRow(v(i), collen);
+      res.insert(row);
+    }
+  return res;
+
+} 
+
+extern mat mergeNetwork(mat &net1, mat &net2)
+{
+  mat res = zeros<mat>(net1.size());
+  res = net1 + net2;//Of course we should have made a test to make sure net1.size()==net2.size()
+  uvec indices = find(net1==net2);
+  res.elem(indices) = zeros<vec>(indices.n_elem);
+  uvec indices2 = find(res>0);
+  res.elem(indices2)=ones<vec>(indices2.n_elem);
+  return res;
+
 }

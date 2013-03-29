@@ -15,7 +15,7 @@ temp/*
 */data/*
 *Mar2nd*
 *.Rout
-
+*.o
 *NoiseTest*
 DI/test/test
 *noise0*
