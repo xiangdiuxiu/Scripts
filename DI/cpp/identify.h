@@ -15,4 +15,6 @@ extern int getRow(int, int);
 extern int getCol(int, int);
 extern set<int> getGeneSet(uvec &, int);
 extern mat mergeNetwork(mat &, mat&);
-extern vector<int> randomSample(int, int, int);
+extern vector<int> randomSample(int, int, int, int);
+//extern uvec new_randomeSample(int, int, int, int);
+extern void randomSample(uvec&, int, int, int);

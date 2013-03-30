@@ -25,8 +25,7 @@ extern mat makeNetwork(mat &data, double alpha)
   mat net = cor(data);
   uvec indices_0 = find(net<alpha);
   uvec indices_1 = find(net>=alpha);
-  cout<<"n edge:"<<indices_1.n_elem<<endl;
-  cout<<"n null:"<<indices_0.n_elem<<endl;
+
   net.elem(indices_0) = zeros<vec>(indices_0.n_elem);
   net.elem(indices_1) = ones<vec>(indices_1.n_elem);
   return net;
@@ -71,19 +70,21 @@ extern mat mergeNetwork(mat &net1, mat &net2)
 
 }
 
-extern vector<int> randomSample(int m, int min, int max)
+extern vector<int> randomSample(int m, int seed, int min, int max)
 {
   vector<int> res;
   const gsl_rng_type *T;
   gsl_rng *r;
+
   gsl_rng_env_setup();
   T = gsl_rng_default;
   r = gsl_rng_alloc(T);
+  gsl_rng_set(r,seed);
   set<int> temp;
 
   while(temp.size()<m)
   {
-    cout<<temp.size()<<endl;
+
     double u=gsl_rng_uniform(r);
     int j=min+int((max-min)*u);
     temp.insert(j);
@@ -98,3 +99,59 @@ extern vector<int> randomSample(int m, int min, int max)
   gsl_rng_free(r);
   return res;
 }
+
+extern void randomSample(uvec& res, int seed, int min, int max)
+{
+  int m = res.n_elem;
+  const gsl_rng_type *T;
+  gsl_rng *r;
+  gsl_rng_set(r,seed);
+  gsl_rng_env_setup();
+  T = gsl_rng_default;
+  r = gsl_rng_alloc(T);
+  set<int> temp;
+
+  while(temp.size()<m)
+  {
+    double u=gsl_rng_uniform(r);
+    int j=min+int((max-min)*u);
+    temp.insert(j);
+
+  }
+  set<int>::iterator it = temp.begin();
+  gsl_rng_free(r);
+  for(int i=0; i<m; i++){
+    res(i) = (*it);
+    it++;
+  }
+}
+
+/*
+extern uvec new_randomSample(int m, int min, int max, int seed)
+{
+  uvec res(m);
+  const gsl_rng_type *T;
+  gsl_rng *r;
+  gsl_rng_set(r,seed);
+  gsl_rng_env_setup();
+  T = gsl_rng_default;
+  r = gsl_rng_alloc(T);
+  set<int> temp;
+
+  while(temp.size()<m)
+  {
+    cout<<temp.size()<<endl;
+    double u=gsl_rng_uniform(r);
+    int j=min+int((max-min)*u);
+    temp.insert(j);
+
+  }
+  set<int>::iterator it = temp.begin();
+  gsl_rng_free(r);
+  for(int i=0; i<m; i++){
+    res(i) = (*it);
+    it++;
+  }
+  return(res);
+}
+*/

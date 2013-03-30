@@ -14,4 +14,4 @@ extern mat makeNetwork(mat &,double);
 extern int getCol(int,int);  
 extern int getRow(int,int);
 extern std::set<int> getGeneSet(uvec &, int);
-
+extern vector<int> randomSample(int, int, int, int);
