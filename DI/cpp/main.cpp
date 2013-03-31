@@ -15,14 +15,34 @@ int main(int argc, char** argv)
   mat ctrlData = Data.cols(ctrl);
   tumorData = tumorData.t();
   ctrlData = ctrlData.t();
-  for(int i=0; i<3; i++){
-    uvec test(5);
-    vector<int> rtest = randomSample(5,10000+i,0,1000);
-    int j=0;
-    for(vector<int>::iterator it = rtest.begin(); it!=rtest.end();it++)
-      test(j++) = (*it);
-    cout<<i<<" test:"<<endl;
-    test.print();
+  
+  //init boostup
+  int nb = 100;
+  int iter = 0;
+  set<int> res;
+  uvec sample(10);
+  randomSample(sample, 10000+iter, 0, 79);
+  mat tumorSample = tumorData.rows(sample);
+  mat ctrlSample = ctrlData.rows(sample);
+  
+  double thes = 0.75;
+  mat net1 = makeNetwork(tumorSample, thes);
+  mat net2 = makeNetwork(ctrlSample, thes);
+  mat resnet = mergeNetwork(net1, net2);
+  uvec indices = find(resnet==1);
+  res = getGeneSet(indices, 10);
+  iter++;
+
+  while(iter < nb){
+    randomSample(sample, 10000+iter, 0,79);
+    tumorSample = tumorData.rows(sample);
+    ctrlSample = ctrlData.rows(sample);
+    net1 = makeNetwork(tumorSample, thes);
+    net2 = makeNetwork(ctrlSample, thes);
+    resnet = mergeNetwork(net1, net2);
+    indices = find(resnet==1);
+    set<int> tmpset = getGeneSet(indices, 10);
+    
   }
   return 0;
 }

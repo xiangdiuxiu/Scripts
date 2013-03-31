@@ -105,10 +105,11 @@ extern void randomSample(uvec& res, int seed, int min, int max)
   int m = res.n_elem;
   const gsl_rng_type *T;
   gsl_rng *r;
-  gsl_rng_set(r,seed);
+
   gsl_rng_env_setup();
   T = gsl_rng_default;
   r = gsl_rng_alloc(T);
+  gsl_rng_set(r,seed);
   set<int> temp;
 
   while(temp.size()<m)
