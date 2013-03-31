@@ -6,11 +6,11 @@
 extern void getGeneSet(set<int> &res, mat & data, double thes)
 {
   mat cor_res;
-  for(int i = 0; i < data.n_col; i++)
-    for(int j = i+1; j < data.n_col; j++)
+  for(int i = 0; i < data.n_cols; i++)
+    for(int j = i+1; j < data.n_cols; j++)
       {
 	cor_res = cor(data.col(i),data.col(j));
-	if(cor_res(1,1)>thes){
+	if(cor_res(0)>thes){
 	  res.insert(i);
 	  res.insert(j);
 	}

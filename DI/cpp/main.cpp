@@ -3,14 +3,17 @@
 int main(int argc, char** argv)
 {
   ifstream fin(argv[1],ios::in);
-  int ngenes = 1000;
+  int ngenes = 133772;
   int nsamples = 160;
+  cout<<"make matrix"<<endl;
   mat Data = makeMatrix(fin, ngenes, nsamples);
+  cout<<"finish making matrix"<<endl;
   uvec tumor(80), ctrl(80);
   for(int i=0; i<80; i++){
     tumor(i) = 2*i;
     ctrl(i) = 2*i+1;
   }
+  cout<<ctrl(79)<<endl;
   mat tumorData = Data.cols(tumor);
   mat ctrlData = Data.cols(ctrl);
   tumorData = tumorData.t();
@@ -22,11 +25,11 @@ int main(int argc, char** argv)
   set<int> res;
   uvec sample(10);
   randomSample(sample, 10000+iter, 0, 79);
+  sample.print();
   mat tumorSample = tumorData.rows(sample);
   mat ctrlSample = ctrlData.rows(sample);
   
-  mat cortest = cor(tumorSample.col(1),tumorSample.col(2));
-  cout<<cortest<<endl;
+  getGeneSet(res, tumorSample, 0.75);
   //到makeNetwork才会出现问题;
   /*
   double thes = 0.75;
