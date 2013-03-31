@@ -3,7 +3,19 @@
 //Author: ZhangYet
 
 #include "identify.h"
-
+extern void getGeneSet(set<int> &res, mat & data, double thes)
+{
+  mat cor_res;
+  for(int i = 0; i < data.n_col; i++)
+    for(int j = i+1; j < data.n_col; j++)
+      {
+	cor_res = cor(data.col(i),data.col(j));
+	if(cor_res(1,1)>thes){
+	  res.insert(i);
+	  res.insert(j);
+	}
+      }
+}
 mat makeMatrix(ifstream &fin, int m, int n)
 {
   if(!fin){

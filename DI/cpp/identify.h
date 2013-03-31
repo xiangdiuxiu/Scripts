@@ -18,3 +18,4 @@ extern mat mergeNetwork(mat &, mat&);
 extern vector<int> randomSample(int, int, int, int);
 //extern uvec new_randomeSample(int, int, int, int);
 extern void randomSample(uvec&, int, int, int);
+extern void getGeneSet(set<int> &, mat &, double thes);
