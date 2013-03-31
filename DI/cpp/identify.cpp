@@ -14,6 +14,7 @@ extern void getGeneSet(set<int> &res, mat & data, double thes)
 	  res.insert(i);
 	  res.insert(j);
 	}
+	cout<<res.size()<<endl;
       }
 }
 mat makeMatrix(ifstream &fin, int m, int n)
