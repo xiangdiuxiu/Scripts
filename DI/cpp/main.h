@@ -3,6 +3,8 @@
 #include <string>
 #include <set>
 #include <vector>
+#include <algorithm>
+#include <iterator>
 #include "armadillo"
 #include "identify.h"
 

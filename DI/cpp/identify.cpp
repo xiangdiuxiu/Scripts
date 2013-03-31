@@ -22,6 +22,8 @@ mat makeMatrix(ifstream &fin, int m, int n)
 
 extern mat makeNetwork(mat &data, double alpha)
 {
+  
+  cout<<"begin make"<<endl;
   mat net = cor(data);
   uvec indices_0 = find(net<alpha);
   uvec indices_1 = find(net>=alpha);

@@ -3,7 +3,7 @@
 int main(int argc, char** argv)
 {
   ifstream fin(argv[1],ios::in);
-  int ngenes = 133772;
+  int ngenes = 1000;
   int nsamples = 160;
   mat Data = makeMatrix(fin, ngenes, nsamples);
   uvec tumor(80), ctrl(80);
@@ -25,14 +25,23 @@ int main(int argc, char** argv)
   mat tumorSample = tumorData.rows(sample);
   mat ctrlSample = ctrlData.rows(sample);
   
+  mat cortest = cor(tumorSample.col(1),tumorSample.col(2));
+  cout<<cortest<<endl;
+  //到makeNetwork才会出现问题;
+  /*
   double thes = 0.75;
   mat net1 = makeNetwork(tumorSample, thes);
   mat net2 = makeNetwork(ctrlSample, thes);
+  cout<<"first statage"<<endl;
+ 
   mat resnet = mergeNetwork(net1, net2);
   uvec indices = find(resnet==1);
   res = getGeneSet(indices, 10);
   iter++;
-
+  set<int>::iterator it_test = res.begin();
+  for(;it_test != res.end(); it_test++)
+    cout<<*it_test<<" ";
+  cout<<endl;
   while(iter < nb){
     randomSample(sample, 10000+iter, 0,79);
     tumorSample = tumorData.rows(sample);
@@ -42,7 +51,13 @@ int main(int argc, char** argv)
     resnet = mergeNetwork(net1, net2);
     indices = find(resnet==1);
     set<int> tmpset = getGeneSet(indices, 10);
-    
+    set_intersection(tmpset.begin(),tmpset.end(),res.begin(),res.end(), inserter(res, res.end()));
+    iter++;
   }
+  cout<<"after boostrap:"<<endl;
+  for(it_test=res.begin();it_test!=res.end();it_test++)
+    cout<<*it_test<<" ";
+  cout<<endl;
+  */
   return 0;
 }
