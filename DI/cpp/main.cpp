@@ -13,7 +13,7 @@ int main(int argc, char** argv)
     tumor(i) = 2*i;
     ctrl(i) = 2*i+1;
   }
-  cout<<ctrl(79)<<endl;
+
   mat tumorData = Data.cols(tumor);
   mat ctrlData = Data.cols(ctrl);
   tumorData = tumorData.t();
@@ -25,11 +25,13 @@ int main(int argc, char** argv)
   set<int> res;
   uvec sample(10);
   randomSample(sample, 10000+iter, 0, 79);
-  sample.print();
+
   mat tumorSample = tumorData.rows(sample);
   mat ctrlSample = ctrlData.rows(sample);
-  
-  getGeneSet(res, tumorSample, 0.75);
+  network test(100000);
+  makeNetwork(test, ctrlSample, 0.75);
+  cout<<"successfully make network"<<endl;
+
   //到makeNetwork才会出现问题;
   /*
   double thes = 0.75;

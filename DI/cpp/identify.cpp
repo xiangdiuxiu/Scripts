@@ -3,6 +3,23 @@
 //Author: ZhangYet
 
 #include "identify.h"
+extern void makeNetwork(network &res, mat & data, double thes)
+{
+  path tmp;
+  mat cor_res;
+  //network::iterator it = res.begin();
+  for(int i = 0; i < data.n_cols; i++)
+    for(int j = i+1; j < data.n_cols; j++)
+      {
+	cor_res = cor(data.col(i), data.col(j));
+	if(cor_res(0)>thes)
+	  {
+	    tmp = make_pair(i,j);
+	    res.push_back(tmp);
+	  }
+      }
+}
+
 extern void getGeneSet(set<int> &res, mat & data, double thes)
 {
   mat cor_res;
