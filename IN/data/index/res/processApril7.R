@@ -7,13 +7,12 @@ for(i in 1:571){
       if(file.exists(filename)){
 	data<-read.table(filename)
 	tmp<-data$V5[1:1005]
-	if(i==72) {A=inx}
 	TotalData[,inx]<-tmp
 	inx<-inx+1
 	cname<-c(cname,i)
       }
 }
-
+A=72
 
 colnames(TotalData)<-cname
 
@@ -25,6 +24,7 @@ rel<-rel-diag(ncol(rel))
 #选出与A股指数相关性较高的指数数据
 hr<-which(abs(rel[A,])>0.957)
 nhr<-names(hr)
+rel[A,][nhr[1]]
 
 ##计算“错位时间”下相关性的函数
 delay<-function(data1,data2,window,len){
@@ -52,10 +52,12 @@ delay<-function(data1,data2,window,len){
 
 ##测试##
 fileA=paste0("clean",A)
+fileA
 fileT=paste0("clean",nhr[1])
+fileT
 data=read.table(fileA)
 data1=data$V5
 data=read.table(fileT)
 data2=data$V5
 
-delay(data1,data2,window=c(5,90),len=1000)
+delay(data1,data2,window=c(0,90),len=1005)
